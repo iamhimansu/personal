@@ -4,12 +4,12 @@ import MyProfile from "@/pages/MyProfile.vue";
 const routes = [
     {
         name: 'PersonalProfile',
-        path: '',
+        path: '/personal',
         component: MyProfile
     },
     {
         name: 'Personal',
-        path: '',
+        path: '/',
         component: MyProfile
     },
     {
@@ -29,7 +29,7 @@ const routes = [
     },
     {
         name: 'SignUpPage',
-        path: '/personal',
+        path: '/register',
         component: () => import('@/pages/RegisterPage.vue')
     },
     {

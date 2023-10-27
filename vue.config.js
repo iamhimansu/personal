@@ -6,7 +6,7 @@ module.exports = defineConfig({
     productionSourceMap: false,
     outputDir: 'deploy',
     publicPath: process.env.NODE_ENV === 'production'
-        ? 'https://iamhimanshu.github.io/personal'
+        ? 'https://iamhimansu.github.io/personal'
         : '',
     configureWebpack: {
         resolve: {

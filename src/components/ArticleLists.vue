@@ -88,9 +88,7 @@ export default {
       const date = new Date(timestamp); // Convert the timestamp to milliseconds
       return date.toLocaleDateString('en-US', options);
     }
-  },
-
-  inject:['publicPath']
+  }
 };
 </script>
 <template>
@@ -105,7 +103,7 @@ export default {
           </div>
           <div class="mt-2">
             <router-link
-                :to="{ path: publicPath+articleLink(article.id)}"
+                :to="{ path: articleLink(article.id)}"
                 class="text-2xl font-bold text-gray-700 hover:text-gray-600 dark:text-gray-300 hover:underline">
               {{ article.title }}
             </router-link>

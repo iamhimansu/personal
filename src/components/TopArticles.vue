@@ -16,8 +16,7 @@ export default {
   },
   data() {
     return {}
-  },
-  inject:['publicPath']
+  }
 }
 </script>
 
@@ -27,7 +26,7 @@ export default {
   </div>
   <div class="columns-1 md:columns-2 pb-4 mb-4 border-b dark:border-b-gray-900">
     <div v-for="(article, index) in topArticles" :key="index">
-      <router-link :to="{ path: publicPath+articleLink(article.id)}">
+      <router-link :to="{ path: articleLink(article.id)}">
         <div
             class="flex flex-col md:flex-row mb-3 gap-3 dark:hover:bg-slate-900 md:border dark:border-slate-900 p-2 md:hover:shadow-md md:hover:cursor-pointer md:rounded">
           <div class="w-full lg:w-28 h-40 md:h-24 overflow-hidden object-contain bg-cover rounded"
