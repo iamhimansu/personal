@@ -88,40 +88,41 @@ export default {
       const date = new Date(timestamp); // Convert the timestamp to milliseconds
       return date.toLocaleDateString('en-US', options);
     }
-  }
+  },
+
+  inject:['publicPath']
 };
 </script>
 <template>
-  <div class="flex flex-col sm:flex-row divide-x">
-    <div class="w-full md:w-4/6 min-h-screen p-4 md:p-12">
+  <div class="flex flex-col sm:flex-row">
+    <div class="w-full md:w-4/6 min-h-screen p-4 md:p-12 border-r dark:border-r-gray-900">
       <top-articles :top-articles="topArticles"></top-articles>
 
       <div v-for="(article, index) in articles" :key="index">
-        <div class="max-w-2xl py-4 mx-auto bg-white dark:bg-gray-800 mb-5 border-b" style="cursor: auto;">
+        <div class="max-w-2xl py-4 mx-auto bg-white mb-5 border-b dark:border-b-gray-900 dark:bg-midnight" style="cursor: auto;">
           <div class="flex items-center justify-between">
-            <span class="text-sm font-light text-gray-600 dark:text-gray-400">{{ formatDate(article.createdAt) }}</span>
-            <a class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500">JavaScript</a>
+            <span class="text-sm font-light text-gray-600 dark:text-gray-300">{{ formatDate(article.createdAt) }}</span>
           </div>
           <div class="mt-2">
             <router-link
-                :to="{ path: articleLink(article.id)}"
-                class="text-2xl font-bold text-gray-700 dark:text-white hover:text-gray-600 dark:hover:text-gray-200 hover:underline">
+                :to="{ path: publicPath+articleLink(article.id)}"
+                class="text-2xl font-bold text-gray-700 hover:text-gray-600 dark:text-gray-300 hover:underline">
               {{ article.title }}
             </router-link>
 
-            <p class="mt-2 text-gray-600 dark:text-gray-300"
+            <p class="mt-2 text-gray-400"
                v-html="JSON.parse(article.json_content).blocks[0].data.text"></p>
 
           </div>
           <div class="flex items-center justify-between mt-4">
             <router-link
                 :to="{ path: articleLink(article.id)}"
-                class="text-blue-600 dark:text-blue-400 hover:underline">Read more ⟶
+                class="border rounded p-2 px-4 font-bold md:border-none md:text-blue-300 md:rounded-none md:p-0 dark:text-slate-500 hover:bg-gray-100 md:hover:bg-inherit md:hover:underline">Read more ⟶
             </router-link>
             <div class="flex items-center">
               <img alt="Author Photo" class="object-cover w-10 h-10 mx-4 rounded-full sm:block"
                    src="https://avatars.githubusercontent.com/u/44632846?v=4">
-              <a class="font-bold text-gray-700 cursor-pointer dark:text-gray-200">Himanshu</a>
+              <a class="font-bold text-gray-700 cursor-pointer dark:text-gray-400">Himanshu</a>
             </div>
           </div>
         </div>

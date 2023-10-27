@@ -14,21 +14,3 @@ body * {
 .font-inconsolata {
     font-family: 'Inconsolata', monospace;
 }
-
-.article-title {
-    color: #131415;
-    font-size: 50px;
-    line-height: 66px;
-    font-weight: 600;
-}
-
-.article-view code{
-    font-size: 14px;
-    padding: 5px;
-    color: black;
-    border-radius: 3px;
-    font-family: 'Inconsolata', monospace;
-    white-space: pre;
-    background-color: #f3f4f6;
-    font-weight: bold;
-}

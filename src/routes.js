@@ -3,13 +3,13 @@ import MyProfile from "@/pages/MyProfile.vue";
 
 const routes = [
     {
-        name: 'Personal',
-        path: '/',
+        name: 'PersonalProfile',
+        path: '',
         component: MyProfile
     },
     {
         name: 'Personal',
-        path: '/personal',
+        path: '',
         component: MyProfile
     },
     {
@@ -29,7 +29,7 @@ const routes = [
     },
     {
         name: 'SignUpPage',
-        path: '/register',
+        path: '/personal',
         component: () => import('@/pages/RegisterPage.vue')
     },
     {
@@ -58,7 +58,6 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     mode: 'history',
-    base: './',
     scrollBehavior(to, from, savedPosition) {
         return savedPosition || {top: 0}
     },

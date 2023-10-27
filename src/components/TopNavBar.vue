@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <div class="w-full h-16 border-b flex place-items-center">
+  <div class="dark:bg-midnight dark:text-slate-500 dark:border-b-gray-900 w-full h-16 border-b flex place-items-center">
     <div class="flex w-9/12 md:w-8/12 md:place-items-center md:pl-20">
     <global-search></global-search>
     </div>

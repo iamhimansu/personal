@@ -1,5 +1,7 @@
 <script>
+import Article from "@/pages/js/Article";
 import EditorJS from "@editorjs/editorjs";
+import { mapGetters} from "vuex";
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
 import CodeTool from '@editorjs/code'
@@ -15,9 +17,11 @@ import InlineCode from '@editorjs/inline-code'
 import Delimiter from '@editorjs/delimiter'
 import NestedList from '@editorjs/nested-list'
 import TextVariant from '@editorjs/text-variant-tune'
-import Article from "@/pages/js/Article";
-import {mapGetters} from "vuex";
 import ErrorSummary from "@/components/ErrorSummary.vue";
+import InlineImage from 'editorjs-inline-image';
+import ImageTool from '@editorjs/image';
+import ImageUploadBinary from "@/ImageUploadBinary";
+import * as path from "path";
 
 export default {
   name: "EditorJsLayout",
@@ -31,10 +35,10 @@ export default {
 
   },
   computed: {
-    ...mapGetters(['getDB'])
+    ...mapGetters(['getDB']),
   },
   methods: {
-    editor: () => {
+    editor: function () {
       return new EditorJS({
         onPaste: (event) => {
           const clipboardData = event.clipboardData || window.clipboardData;
@@ -63,6 +67,23 @@ export default {
           },
           paragraph: {
             class: Paragraph,
+          },
+          imageUpload: {
+            class: ImageTool,
+            config: {
+              endpoints: {
+                byFile: path.join('/upload'), // Your backend file uploader endpoint
+                byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
+              }
+            }
+          },
+          binaryImage: {
+            class: ImageUploadBinary,
+            config: {
+              uploadHandler: (fileReader) => {
+                  return this.$store.dispatch("uploadFileToGithub", fileReader);
+              }
+            }
           },
           embed: {
             class: Embed,
@@ -121,11 +142,22 @@ export default {
               defaultStyle: 'unordered'
             },
           },
+          embedImages: {
+            class: InlineImage,
+            inlineToolbar: true,
+            config: {
+              embed: {
+                display: true,
+              },
+              unsplash: {
+                appName: 'your_app_name',
+                clientId: 'your_client_id'
+              }
+            }
+          }
         },
         tunes: ['textVariant'],
-        data: {
-
-        }
+        data: {}
       });
     },
     invokeSave() {
@@ -148,7 +180,7 @@ export default {
     }
   },
 
-  beforeMount() {
+  created() {
     this.editorInstance = this.editor();
   }
 }
@@ -158,7 +190,8 @@ export default {
   <div class="p-8 relative">
     <div class="w-160 mx-auto">
       <error-summary :errors="errors"></error-summary>
-      <input v-model="title" class="w-full p-4 px-0 text-2xl outline-0 rounded border-0" placeholder="New title" type="text">
+      <input v-model="title" class="w-full p-4 px-0 text-2xl outline-0 rounded border-0" placeholder="New title"
+             type="text">
     </div>
     <div id="editor" class="z-auto"></div>
     <button class="w-12 h-12 border bg-gray-100 hover:bg-black group fixed right-10 bottom-10 rounded-full"

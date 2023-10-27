@@ -1,12 +1,13 @@
 const {defineConfig} = require('@vue/cli-service');
-const path = require('path-browserify');
 
 module.exports = defineConfig({
     transpileDependencies: true,
     runtimeCompiler: true,
-    productionSourceMap: true,
+    productionSourceMap: false,
     outputDir: 'deploy',
-    publicPath: './',
+    publicPath: process.env.NODE_ENV === 'production'
+        ? 'https://iamhimanshu.github.io/personal'
+        : '',
     configureWebpack: {
         resolve: {
             fallback: {

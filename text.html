@@ -1,10 +1,267 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ student_profile.name|upper }}</title>
+    <style>
+        h1, h2, h3, h4, h5, h6, p, div, span {
+            margin: 0px !important;
+            padding: 0px !important;
+        }
+
+        .card {
+            width: 330px;
+            height: 220px;
+            border: 2px solid #000;
+            border-radius: 5px;
+        }
+
+        .left-card, .right-card {
+            position: absolute;
+        }
+
+        .left-card {
+            left: 235px;
+            top: 30px;
+        }
+
+        .right-card {
+            top: 300px;
+            left: 235px;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div class="card left-card">
+</div>
+<div class="university-logo" style="
+    width: 70px;
+    position: absolute;
+    height: 60px;
+    left: 240px;
+    top: 35px;
+">
+    <img src="https://samarth-ac.s3.ap-south-1.amazonaws.com/gujrat-central-university/student/42ab427b52e4b20c164daf93b93dd09469aa680e62c8ea78bfaf4f1a330c78e5/42ab427b52e4b20c164daf93b93dd09469aa680e62c8ea78bfaf4f1a330c78e5_url_1687940005_url.png" alt="" style="
+    height: 100%;
+    width: auto;
+">
+</div>
+<div class="university-title" style="
+    top: 35px;
+    position: absolute;
+    left: 295px;
+    text-align: center;
+    width: 260px;
+    font-size: 12px;
+">
+    <p style="
+    font-weight: bold;
+    font-size: 16px;
+">गुजरात केन्द्रीय विश्&zwj;वविद्यालय</p>
+    <p style="
+    font-weight: bold;
+    font-size: 10px;
+">(भारत की संसद के अधिनियम सं. 25, 2009 के तहत स्थापित)</p>
+    <p style="font-weight: 800;font-size: 12px">CENTRAL UNIVERSITY OF GUJARAT</p>
+    <p style="
+    font-weight: 100;
+    font-size: 9px;
+">(Established by an Act of Parliament of India, No 25 of 2009)</p>
+</div>
+<div class="enrolment-no"  style="
+    position: absolute;
+    top: 115px;
+    font-size: 10px;
+    left: 360px;
+">Enroll No. : {{ student_profile.enrolment_number }}
+</div>
+<div style="
+    position: absolute;
+    top: 98px;
+    font-size: 14px;
+    left: 355px;
+    font-weight: bold;
+">IDENTITY CARD
+</div>
+<div class="student-photo" style="
+    width: 70px;
+    height: 90px;
+    position: absolute;
+    top: 130px;
+    left: 240px;
+">
+    <img src="{{ student_profile.profile_photo }}" alt="{{ student_profile.name }}" style="
+    width: 70px;
+    height: 90px;
+">
+</div>
+<div class="student-signature" style="
+    width: 70px;
+    height: 30px;
+    position: absolute;
+    top: 211px;
+    left: 240px;
+">
+    <img src="{{ student_profile.profile_signature|raw }}"
+         alt="" style="
+    height: 30px;
+    width: 70px;
+">
+</div>
+<div style="
+position:absolute;
+    font-size: 9px;
+    font-family: sans-serif;
+    width: 90px;
+    top: 241px;
+    left: 240px;
+">Holder's Signature
+</div>
+<div class="student-name" style="width: 300px;position:absolute;left: 315px;top: 130px;font-size: 12px">
+    Name: {{ wordwrap(student_profile.name, 300)|raw }}
+</div>
+
+<div class="student-guardian" style="width: 300px;position:absolute;left: 315px;top: 147px;font-size: 12px">
+    Father/Mother Name :
+    {% if student_profile.father_name is null %}
+    {% if student_profile.mother_name is null %}
+    _____________
+    {% else %}
+    {{ student_profile.mother_name|capitalize  }}
+    {% endif %}
+    {% else %}
+    {{ student_profile.father_name|capitalize  }}
+    {% endif %}
+</div>
+
+<div class="student-date-of-birth" style="position: absolute;
+    top: 164px;
+    width: 300px;
+    left: 315px;
+    font-size: 12px">
+    Date of Birth : {{date('d/m/Y', student_profile.dob)}}
+</div>
+
+<div class="student-programme" style="width: 300px;position:absolute;left: 315px;top: 180px;font-size: 12px">
+    Programme :
+</div>
+<div class="student-programme" style="width: 180px;position:absolute;left: 388px;top: 180px;font-size: 12px">
+    {{ student_record.programme.title_english }}
+</div>
+<div class="student-class" style="width: 300px;position:absolute;left: 315px;top: 210px;font-size: 12px">
+    Admission Year : {{student_profile.year_of_admission}}
+</div>
+
+
+<div class="student-blood-group" style="position: absolute;
+    width: 325px;
+    left: 315px;
+    top: 228px;
+    font-size: 12px">
+    Blood Group: {% if student_profile.blood_group is null %}
+    __
+    {% else %}
+    {{ student_profile.blood_group }}
+    {% endif %}
+</div>
+<div class="coe" style="
+    width: 200px;
+    position: absolute;
+    left: 440px;
+    top: 236px;
+    font-size: 11px;
+    font-weight: bold;
+    font-family: sans-serif;">
+    Authorized Signatory
+</div>
+
+<div class="card right-card"></div>
+<div class="student-details-qr-code"
+     style="position:absolute;top: 310px;width: 60px;height: 60px;left: 500px;font-size: 16px;text-align: center;">
+    <img src="{{ qrcode_details([
+            'Name : ' ~ student_profile.name|upper,
+            'Programme Name : ' ~ student_record.programme.title_english,
+            'Enrollment Number : ' ~ student_record.enrolment_number,
+            'Valid till : ' ~ date('dM, Y', '30 june +1 year'),
+            ]) }}" style="width: 60px; height: 60px" alt="{{student_record.enrolment_number}}">
+</div>
+<div class="student-contact-number" style="position: absolute;
+    top: 330px;
+    width: 325px;
+    left: 240px;
+    font-size: 12px">
+    Contact No: {{student_profile.mobile_number}}
+</div>
+<div class="student-email-address" style="position: absolute;
+    top: 350px;
+    width: 395px;
+    left: 240px;
+    font-size: 12px">
+    Email Address: {{student_profile.personal_email}}
+</div>
+<div class="student-residence" style="
+    position: absolute;
+    top: 370px;
+    width: 325px;
+    left: 240px;
+    font-size: 12px;
+    height: 50px;
+    overflow: hidden;
+    ">
+    Address: {{wordwrap(student_correspondence_address, 340, 12, 3)|raw}}
+</div>
+<div class="sem-table" style="
+    position: absolute;
+    top: 415px;
+    width: 320px;
+    left: 241px;
+    font-size: 12px;
+    height: 50px;
+    overflow: hidden;
+    border: 1px solid #000;
+    ">
+    <table style="
+        width: 100%;
+        border-collapse: collapse;
+        ">
+        {% for row in [['SEM I','SEM II','SEM III','SEM IV'], ['','','','']] %}
+        <tr>
+            {% for column in row %}
+            <td style="border: 1px solid;text-align: center;width: 25%;height: 25px"> {{column}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="university-contact-number" style="
+    position: absolute;
+    top: 470px;
+    width: 325px;
+    left: 240px;
+    font-size: 10px;
+    text-align: center;
+    ">Phone: +91 7923977446
+</div>
+<div class="university-email" style="
+    position: absolute;
+    top: 482px;
+    width: 325px;
+    left: 240px;
+    font-size: 10px;
+    text-align: center;
+    ">Email: admission@cug.ac.in, Web: www.cug.ac.in
+</div>
+<div class="lost-and-found" style="
+    position: absolute;
+    top: 498px;
+    width: 325px;
+    left: 240px;
+    font-size: 8px;
+    ">
+    <p>This card is the property of the Central University of Gujarat, Gandhinagar and may only be used by the person
+        named overleaf.</p>
+</div>
 </body>
 </html>

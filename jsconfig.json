@@ -2,11 +2,14 @@
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
-    "baseUrl": "./",
+    "baseUrl": "./personal",
     "moduleResolution": "node",
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@base/*": [
+        "iamhimansu.github.io/personal/"
       ]
     },
     "lib": [

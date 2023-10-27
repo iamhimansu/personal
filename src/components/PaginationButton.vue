@@ -36,7 +36,7 @@ export default {
     <div class="flex flex-row place-items-center justify-center">
       <div v-for="i in totalButtons()" :key="i">
         <button :class="(currentPage+1) === i  ? 'bg-black text-white' : 'text-black'"
-                class="border w-6 p-2 text-xs px-4"
+                class="border w-6 p-2 text-xs px-4 dark:text-gray-300 dark:border-slate-900"
                 @click="handlePagination(i)">
           {{ i }}
         </button>

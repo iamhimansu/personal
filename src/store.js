@@ -4,20 +4,22 @@ import axios from "axios";
 import * as path from "path";
 
 const base64 = require('base-64');
-const apiUrl = `https://api.github.com/repos/iamhimansu/personalDB/contents/wm.db`;
-// const apiDownloadUrl = `https://api.github.com/repos/iamhimansu/personalDB/contents/wm.db`;
+const apiUrl = `https://api.github.com/repos/iamhimansu/store/contents/wm.db`;
+// const apiDownloadUrl = `https://api.github.com/repos/iamhimansu/store/contents/wm.db`;
+const uploadFileUrl = `https://api.github.com/repos/iamhimansu/store/contents/uploads`;
 
-const token = "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"
+const token = process.env.VUE_APP_GITHUB_STORE_TOKEN;
+
 const headers = {
-    'Authorization': `token ${token}`,
+    'Authorization': `token ghp_${token}`,
     'Content-Type': 'application/json',
 };
 
 const SQL = await initSqlJs({
     // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
     // You can omit locateFile completely when running in node
-    // locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
-    locateFile: file => path.join(file)
+    locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+    // locateFile: file => path.join(file)
 });
 export const store = createStore({
 
@@ -26,6 +28,7 @@ export const store = createStore({
         isDBLoaded: false,
         processingList: [],
         isDevelopment: false,
+        token: token
     },
     mutations: {
         SET_DATA(state, key, newData) {
@@ -66,7 +69,7 @@ export const store = createStore({
             } else {
                 commit('setDBLoadMessage', 'Initiating Download Request');
                 const myHeaders = new Headers();
-                myHeaders.append("Authorization", "token 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");
+                myHeaders.append("Authorization", `token ghp_${token}`);
                 myHeaders.append("Accept", "application/vnd.github.v3.raw");
 
                 const requestOptions = {
@@ -198,10 +201,36 @@ export const store = createStore({
                     }
                 })
 
-        }
+        },
 
+        uploadFileToGithub(context, fileReader) {
+            const file = fileReader
+            if (!file) {
+                alert('Please select a file.');
+                return false;
+            }
+            //
+            const content = file.result.split(',')[1]
+
+            const fileObject = file.fileObject.file;
+
+            const message = 'Upload file ' + fileObject.name;
+
+            const data = JSON.stringify({
+                "message": message,
+                "content": content,
+                "sha": false,
+                encoding: 'base64',
+                type: fileObject.type,
+            });
+            const config = {
+                headers: headers,
+            };
+            return axios.put(uploadFileUrl + '/' + fileObject.lastModified+'.'+fileObject.name.split('.').pop(), data, config);
+        }
     },
     getters: {
         getDB: (state) => state.db,
+        getToken: (state) => state.token,
     },
 })

@@ -1,6 +1,8 @@
+
 export default class ArticleParser {
-    constructor() {
+    constructor(configs) {
         this.contents = null;
+        this.githubToken = configs.githubToken || null;
         this.renderedOutput = [];
         this.blockMaps =
             {
@@ -8,14 +10,14 @@ export default class ArticleParser {
                     name: 'paragraph',
                     contentLocation: 'text',
                     render: (content) => {
-                        return `<div class="mb-4 font-crimson text-gray-700 text-xl leading-8 font-normal">${content.text}</div>`;
+                        return `<div class="mb-4 font-crimson dark:text-gray-400 text-gray-700 text-xl leading-8 font-normal paragraph">${content.text}</div>`;
                     }
                 },
                 code: {
                     name: 'code',
                     contentLocation: 'code',
                     render: (content) => {
-                        return `<div class="relative bg-gray-100 min-h-200 font-inconsolata text-#41314e leading-6 text-sm border border-#f1f1f4 overflow-x-auto resize-y whitespace-pre p-4">${content.code}</div>`;
+                        return `<div class="-mx-8 border-none md:mx-0 relative bg-gray-100 min-h-200 dark:text-gray-400 dark:bg-gray-900 font-inconsolata text-#41314e leading-6 text-sm md:border border-#f1f1f4 overflow-x-auto resize-y whitespace-pre p-4">${content.code}</div>`;
                     }
                 },
                 header: {
@@ -24,6 +26,15 @@ export default class ArticleParser {
                     extraAttributes: ['level'],
                     render: (content) => {
                         return `<div class="py-3 px-0 mt-0 leading-5 outline-none">${content.text}</div>`;
+                    }
+                },
+                binaryImage: {
+                    name: 'binaryImage',
+                    contentLocation: 'data',
+                    extraAttributes: [],
+                    render: (content) => {
+                        return `<div class="py-3 px-0 mt-0 leading-5 outline-none">
+                                    <img src="${content.url}" alt=""></div>`;
                     }
                 },
                 nested: {
